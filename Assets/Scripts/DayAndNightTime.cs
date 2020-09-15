@@ -16,5 +16,31 @@ public class DayAndNightTime : MonoBehaviour
         {
             count = 0.0f;
         }
+
+        float darkFactor = 0.0f;
+        if(PrecipitationManagerEditor.ifPrecipitaion)
+        {
+            if(darkFactor <= 0.5f)
+            {
+                material.SetFloat("_DarkFactor", darkFactor);
+                darkFactor += Time.deltaTime * 0.1f;
+                if (darkFactor > 0.5f)
+                {
+                    darkFactor = 0.5f;
+                }
+            }
+        }
+        else if(!PrecipitationManagerEditor.ifPrecipitaion)
+        {
+            if (darkFactor >= 0.0f)
+            {
+                material.SetFloat("_DarkFactor", darkFactor);
+                darkFactor -= Time.deltaTime * 0.1f;
+            }
+            if (darkFactor < 0.0f)
+            {
+                darkFactor = 0.0f;
+            }
+        }
     }
 }

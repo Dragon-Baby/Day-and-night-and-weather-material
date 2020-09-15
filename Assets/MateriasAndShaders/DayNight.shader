@@ -9,6 +9,7 @@
         [NoScaleOffset]_UpTex("Up[+Y] ", 2DArray) = ""{}
         [NoScaleOffset]_DownTex("Down[-Y] ", 2DArray) = ""{}
         _SliceRange ("Slices", Range(0,6)) = 0
+        _DarkFactor ("DarkFactor", Range(0,1)) = 0
     }
     SubShader
     {
@@ -22,7 +23,6 @@
             #pragma vertex skyboxVert
             #pragma fragment frag
             #pragma target 2.0
-            //#pragma require 2darray
             #include "DayNightShader.cginc"
             half4 _FrontTex_HDR;
             UNITY_DECLARE_TEX2DARRAY(_FrontTex);
@@ -35,7 +35,9 @@
                     nextIndex = 0.0f;
                 }
                 half4 nextTex = UNITY_SAMPLE_TEX2DARRAY(_FrontTex, float3(i.uv, nextIndex));
-                half4 texColor = half4(lerp(previousTex, nextTex, frac(i.arrayIndex)).xyz, 1.0);
+                half4 texColor = half4(lerp(previousTex, nextTex, frac(i.arrayIndex)).rgb, 1.0);
+                float4 darkColor = float4(0.1, 0.1, 0.1, 1.0);
+                texColor = half4(lerp(texColor, darkColor, _DarkFactor).rgb, 1.0);
                 half3 col = DecodeHDR(texColor, _FrontTex_HDR);
                 return half4(col, 1.0);
             }
@@ -61,6 +63,8 @@
                 }
                 half4 nextTex = UNITY_SAMPLE_TEX2DARRAY(_BackTex, float3(i.uv, nextIndex));
                 half4 texColor = half4(lerp(previousTex, nextTex, frac(i.arrayIndex)).xyz, 1.0);
+                float4 darkColor = float4(0.1, 0.1, 0.1, 1.0);
+                texColor = half4(lerp(texColor, darkColor, _DarkFactor).rgb, 1.0);
                 half3 col = DecodeHDR(texColor, _BackTex_HDR);
                 return half4(col, 1.0);
             }
@@ -86,6 +90,8 @@
                 }
                 half4 nextTex = UNITY_SAMPLE_TEX2DARRAY(_LeftTex, float3(i.uv, nextIndex));
                 half4 texColor = half4(lerp(previousTex, nextTex, frac(i.arrayIndex)).xyz, 1.0);
+                float4 darkColor = float4(0.1, 0.1, 0.1, 1.0);
+                texColor = half4(lerp(texColor, darkColor, _DarkFactor).rgb, 1.0);
                 half3 col = DecodeHDR(texColor, _LeftTex_HDR);
                 return half4(col, 1.0);
             }
@@ -111,6 +117,8 @@
                 }
                 half4 nextTex = UNITY_SAMPLE_TEX2DARRAY(_RightTex, float3(i.uv, nextIndex));
                 half4 texColor = half4(lerp(previousTex, nextTex, frac(i.arrayIndex)).xyz, 1.0);
+                float4 darkColor = float4(0.1, 0.1, 0.1, 1.0);
+                texColor = half4(lerp(texColor, darkColor, _DarkFactor).rgb, 1.0);
                 half3 col = DecodeHDR(texColor, _RightTex_HDR);
                 return half4(col, 1.0);
             }
@@ -136,6 +144,8 @@
                 }
                 half4 nextTex = UNITY_SAMPLE_TEX2DARRAY(_UpTex, float3(i.uv, nextIndex));
                 half4 texColor = half4(lerp(previousTex, nextTex, frac(i.arrayIndex)).xyz, 1.0);
+                float4 darkColor = float4(0.1, 0.1, 0.1, 1.0);
+                texColor = half4(lerp(texColor, darkColor, _DarkFactor).rgb, 1.0);
                 half3 col = DecodeHDR(texColor, _UpTex_HDR);
                 return half4(col, 1.0);
             }
@@ -161,6 +171,8 @@
                 }
                 half4 nextTex = UNITY_SAMPLE_TEX2DARRAY(_DownTex, float3(i.uv, nextIndex));
                 half4 texColor = half4(lerp(previousTex, nextTex, frac(i.arrayIndex)).xyz, 1.0);
+                float4 darkColor = float4(0.1, 0.1, 0.1, 1.0);
+                texColor = half4(lerp(texColor, darkColor, _DarkFactor).rgb, 1.0);
                 half3 col = DecodeHDR(texColor, _DownTex_HDR);
                 return half4(col, 1.0);
             }

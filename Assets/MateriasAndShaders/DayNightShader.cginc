@@ -15,6 +15,7 @@ struct vertexOutput
 
 
 float _SliceRange;
+float _DarkFactor;
 
 //skybox vertex shader
 vertexOutput skyboxVert(vertexInput i)

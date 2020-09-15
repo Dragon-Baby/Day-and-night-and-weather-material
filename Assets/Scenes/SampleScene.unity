@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpDownSpeed: 3
-  EastWestSpeed: 2
+  EastWestSpeed: 2.5
 --- !u!1 &770376767
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +332,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -404,6 +405,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77a9cd67e0f2134eb203311bb33f72c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  moveSpeedUp: 20
+  turnSpeed: 75
 --- !u!1 &1081259234
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,4 +464,87 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1287188509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1287188512}
+  - component: {fileID: 1287188511}
+  - component: {fileID: 1287188510}
+  m_Layer: 0
+  m_Name: PrecipitationSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1287188510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287188509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67b1ae156ca88642b75fe6f9fde7900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainTexture: {fileID: 2800000, guid: b088dc531a9c0c4489bc68a3293574a6, type: 3}
+  noiseTexture: {fileID: 2800000, guid: 2649218e6e377db4aa6e5ea3590dc3b0, type: 3}
+  windStrength: 0.5
+  windYRotation: 0
+  meshSubdivisions: 200
+  rain:
+    amount: 0.5
+    color: {r: 1, g: 1, b: 1, a: 1}
+    colorVariation: {r: 1, g: 1, b: 1, a: 1}
+    fallSpeed: 3
+    cameraRange: {x: 0, y: 15}
+    flutterFrequency: {x: 0.988, y: 1.234}
+    flutterSpeed: {x: 0.01, y: 0.01}
+    flutterMagnitude: {x: 0.89, y: 0.25}
+    sizeRange: {x: 0.5, y: 1}
+  snow:
+    amount: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    colorVariation: {r: 1, g: 1, b: 1, a: 1}
+    fallSpeed: 0.25
+    cameraRange: {x: 0, y: 10}
+    flutterFrequency: {x: 0.988, y: 1.234}
+    flutterSpeed: {x: 1, y: 0.5}
+    flutterMagnitude: {x: 0.35, y: 0.25}
+    sizeRange: {x: 0.05, y: 0.025}
+--- !u!114 &1287188511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287188509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8825980e238e1234fb7e51339b0db8b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSize: 10
+  playerTransform: {fileID: 963194228}
+--- !u!4 &1287188512
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287188509}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
