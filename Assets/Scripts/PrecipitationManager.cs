@@ -80,7 +80,10 @@ using UnityEngine.Rendering;
 
     private void OnEnable()
     {
-        PrecipitationManagerEditor.ifPrecipitaion = false;
+        PrecipitationManagerEditor.ifRain = false;
+        PrecipitationManagerEditor.ifSnow = false;
+        rain.amount = 0;
+        snow.amount = 0;
         gridHandler = GetComponent<GridHandler>();
         gridHandler.onPlayerGridChange += OnPlayerGridChange;
     }
@@ -110,44 +113,61 @@ using UnityEngine.Rendering;
 
     private void Update()
     {
-        if (PrecipitationManagerEditor.ifPrecipitaion)
+        if (meshToDraw == null)
         {
-            if (meshToDraw == null)
-            {
-                RebuildPrecipitationMesh();
-            }
-
-            if (!PrecipitationManagerEditor.ifPrecipitaion)
-            {
-                if (rain.amount >= 0)
-                    rain.amount -= Time.deltaTime * 0.1f;
-                if (rain.amount < 0)
-                {
-                    rain.amount = 0;
-                }
-            }
-            else if (PrecipitationManagerEditor.ifPrecipitaion)
-            {
-                if (rain.amount <= 1)
-                    rain.amount += Time.deltaTime * 0.1f;
-                if (rain.amount > 1)
-                {
-                    rain.amount = 1;
-                }
-            }
-
-            float windStrengthAngle = Mathf.Lerp(0, 45, windStrength);
-
-            Vector3 windRotationEulerAngles = new Vector3(-windStrengthAngle, windYRotation, 0);
-
-            Matrix4x4 windRotationMatrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(windRotationEulerAngles), Vector3.one);
-
-            float maxTravelDistance = gridHandler.gridSize / Mathf.Cos(windStrengthAngle * Mathf.Deg2Rad);
-
-            RenderEnvironmentParticles(rain, CreateMaterialIfNull("Unlit/Rain", ref rainMaterial), maxTravelDistance, windRotationMatrix);
-            RenderEnvironmentParticles(snow, CreateMaterialIfNull("Unlit/Snow", ref snowMaterial), maxTravelDistance, windRotationMatrix);
-
+            RebuildPrecipitationMesh();
         }
+
+        if (!PrecipitationManagerEditor.ifRain)
+        {
+            if (rain.amount >= 0)
+                rain.amount -= Time.deltaTime * 0.1f;
+            if (rain.amount < 0)
+            {
+                rain.amount = 0;
+            }
+        }
+        else if (PrecipitationManagerEditor.ifRain)
+        {
+            if (rain.amount <= 1)
+                rain.amount += Time.deltaTime * 0.1f;
+            if (rain.amount > 1)
+            {
+                rain.amount = 1;
+                PrecipitationManagerEditor.ifRain = !PrecipitationManagerEditor.ifRain;
+            }
+        }
+        if (!PrecipitationManagerEditor.ifSnow)
+        {
+            if (snow.amount >= 0)
+                snow.amount -= Time.deltaTime * 0.1f;
+            if (snow.amount < 0)
+            {
+                snow.amount = 0;
+            }
+        }
+        else if (PrecipitationManagerEditor.ifSnow)
+        {
+            if (snow.amount <= 1)
+                snow.amount += Time.deltaTime * 0.1f;
+            if (snow.amount > 1)
+            {
+                snow.amount = 1;
+                PrecipitationManagerEditor.ifSnow = !PrecipitationManagerEditor.ifSnow;
+            }
+        }
+
+        float windStrengthAngle = Mathf.Lerp(0, 45, windStrength);
+
+        Vector3 windRotationEulerAngles = new Vector3(-windStrengthAngle, windYRotation, 0);
+
+        Matrix4x4 windRotationMatrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(windRotationEulerAngles), Vector3.one);
+
+        float maxTravelDistance = gridHandler.gridSize / Mathf.Cos(windStrengthAngle * Mathf.Deg2Rad);
+
+        RenderEnvironmentParticles(rain, CreateMaterialIfNull("Unlit/Rain", ref rainMaterial), maxTravelDistance, windRotationMatrix);
+        RenderEnvironmentParticles(snow, CreateMaterialIfNull("Unlit/Snow", ref snowMaterial), maxTravelDistance, windRotationMatrix);
+
     }
     void RenderEnvironmentParticles(EnvironmentParticlesSettings settings ,Material material, float maxTravelDistance, Matrix4x4 windRotationMatrix)
     {
@@ -219,7 +239,8 @@ using UnityEngine.Rendering;
 [CustomEditor(typeof(PrecipitationManager))]
 public class PrecipitationManagerEditor : Editor
 {
-    public static bool ifPrecipitaion = false;
+    public static bool ifRain = false;
+    public static bool ifSnow = false;
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -230,9 +251,13 @@ public class PrecipitationManagerEditor : Editor
 
             EditorUtility.SetDirty(target);
         }
-        if(GUILayout.Button("Start Rain And Snow"))
+        if(GUILayout.Button("Start Rain"))
         {
-            ifPrecipitaion = !ifPrecipitaion;
+            ifRain = !ifRain;
+        }
+        if (GUILayout.Button("Start Snow"))
+        {
+            ifSnow = !ifSnow;
         }
     }
 }

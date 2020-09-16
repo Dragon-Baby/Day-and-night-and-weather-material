@@ -11,11 +11,12 @@ public class DirLightRotation : MonoBehaviour
     {
         transform.Rotate(new UnityEngine.Vector3(Time.deltaTime * UpDownSpeed * 10.0f, 0,  0), Space.Self);
         transform.Rotate(new UnityEngine.Vector3(0, Time.deltaTime * EastWestSpeed * 10.0f, 0), Space.Self);
-        if (PrecipitationManagerEditor.ifPrecipitaion)
+        if (PrecipitationManagerEditor.ifRain || PrecipitationManagerEditor.ifSnow)
         {
             if (GetComponent<Light>().intensity >= 0.5f)
             {
                 GetComponent<Light>().intensity -= Time.deltaTime * darkAndClearSpeed * 0.1f;
+                GetComponent<Light>().color += new Color(-Time.deltaTime * darkAndClearSpeed * 0.01f, -Time.deltaTime * darkAndClearSpeed * 0.01f, Time.deltaTime * darkAndClearSpeed * 0.1f, 0.0f);
             }
             if (GetComponent<Light>().intensity < 0.5f)
             {
@@ -27,6 +28,7 @@ public class DirLightRotation : MonoBehaviour
             if (GetComponent<Light>().intensity <= 1.0f)
             {
                 GetComponent<Light>().intensity += Time.deltaTime * darkAndClearSpeed * 0.1f;
+                GetComponent<Light>().color -= new Color(-Time.deltaTime * darkAndClearSpeed * 0.01f, -Time.deltaTime * darkAndClearSpeed * 0.01f, Time.deltaTime * darkAndClearSpeed * 0.1f, 0.0f);
             }
             if (GetComponent<Light>().intensity > 1.0f)
             {

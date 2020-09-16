@@ -7,6 +7,7 @@ public class DayAndNightTime : MonoBehaviour
     public Material material;
     float count = 0.0f;
     public float speed = 1.0f;
+    float darkFactor = 0.0f;
 
     private void Update()
     {
@@ -16,9 +17,7 @@ public class DayAndNightTime : MonoBehaviour
         {
             count = 0.0f;
         }
-
-        float darkFactor = 0.0f;
-        if(PrecipitationManagerEditor.ifPrecipitaion)
+        if(PrecipitationManagerEditor.ifRain || PrecipitationManagerEditor.ifSnow)
         {
             if(darkFactor <= 0.5f)
             {
@@ -30,7 +29,7 @@ public class DayAndNightTime : MonoBehaviour
                 }
             }
         }
-        else if(!PrecipitationManagerEditor.ifPrecipitaion)
+        else
         {
             if (darkFactor >= 0.0f)
             {
